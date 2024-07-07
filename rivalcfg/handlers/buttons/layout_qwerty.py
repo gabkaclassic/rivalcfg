@@ -215,8 +215,10 @@ aliases = {
     "pgdwn": "PageDown",
     "pgdn": "PageDown",
 
+    "ctrl": "LeftCtrl",
     "lctrl": "LeftCtrl",
     "lshift": "LeftShift",
+    "shift": "LeftShift",
     "lalt": "LeftAlt",
     "alt": "LeftAlt",
     "super": "LeftSuper",
