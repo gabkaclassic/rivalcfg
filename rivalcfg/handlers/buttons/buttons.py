@@ -195,16 +195,12 @@ def build_layout(layout):
             )
         full_layout[alias.lower()] = layout.layout[ref]
 
+
+
     return full_layout
 
 
 def is_buttons(string, setting_info):
-    """Checks if the regbradient expression is valid.
-
-    :param str string: The string to validate.
-    :param dict setting_info: the settings info from the mouse profile.
-    :rtype: (bool, str)
-    """
     available_buttons = {k.lower(): v for k, v in setting_info["buttons"].items()}
 
     try:
@@ -225,7 +221,8 @@ def is_buttons(string, setting_info):
             if value not in LAYOUTS:
                 return False, "Unknown layout '%s'" % value
         else:
-            if key not in available_buttons:
+            keys = key.split("+")
+            if not all(k in available_buttons for k in keys):
                 return False, "This mouse have no button named '%s'" % key
 
     return True, ""
@@ -321,9 +318,15 @@ def process_value(setting_info, mapping):
         elif value in mm_layout:
             packet[data["offset"]] = button_multimedia
             packet[data["offset"] + 1] = mm_layout[value]
-        elif value in keyboard_layout:
+        elif value in keyboard_layout or all(v in keyboard_layout for v in value.split('+')) :
             packet[data["offset"]] = button_keyboard
-            packet[data["offset"] + 1] = keyboard_layout[value]
+            if '+' in value:
+                offset = 1
+                for v in value.split('+'):
+                    packet[data["offset"] + offset] = keyboard_layout[v]
+                    offset += 1
+            else:
+                packet[data["offset"] + 1] = keyboard_layout[value]
         else:
             raise ValueError("Unknown button, key or action '%s'" % value)
 

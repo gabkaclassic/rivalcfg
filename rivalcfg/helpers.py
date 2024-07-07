@@ -8,7 +8,6 @@ import re
 #: A regual expression that matches the general form of a param string.
 REGEXP_PARAM_STRING = re.compile(r"^\s*([a-zA-Z0-9_]+)\s*\(\s*(.+?)[\s;]*\)[\s;]*$")
 
-
 def merge_bytes(*args):
     """Returns a single list of int from given int and list of int.
 
